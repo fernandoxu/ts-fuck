@@ -31,5 +31,53 @@ type StartsWith<
   Prefix extends string
 > = Str extends `${Prefix}${string}` ? true : false;
 
+type TrimStrRight<Str extends string> = Str extends `${infer Rest}${
+  | ' '
+  | '\n'
+  | '\t'}`
+  ? TrimStrRight<Rest>
+  : Str;
+type TrimStrLeft<Str extends string> = Str extends `${
+  | ' '
+  | '\n'
+  | '\t'}${infer Rest}`
+  ? TrimStrLeft<Rest>
+  : Str;
+type TrimStr<Str extends string> = TrimStrRight<TrimStrLeft<Str>>;
+
 type StartsWithResult = StartsWith<'abc', 'a'>;
+//   ^?
+type TrimStrRightResult = TrimStrRight<'abc '>;
+//   ^?
+type TrimStrLeftResult = TrimStrLeft<' abc'>;
+//   ^?
+type TrimStrResult = TrimStr<' abc '>;
+//   ^?
+
+// 函数类型
+type GetParameters<Fn extends Function> = Fn extends (
+  ...args: infer Args
+) => unknown
+  ? Args
+  : never;
+
+type GetParametersResult = GetParameters<(a: number, b: string) => string>;
+//   ^?
+
+type GetReturnType<Fn extends Function> = Fn extends (
+  ...args: any
+) => infer ReturnType
+  ? ReturnType
+  : never;
+
+type GetReturnTypeResult = GetReturnType<(a: number, b: string) => string>;
+
+// 索引类型
+type GetRefProps<Props> = 'ref' extends keyof Props
+  ? Props extends { ref?: infer Value | undefined }
+    ? Value
+    : never
+  : never;
+
+type GetRefPropsResult = GetRefProps<{ ref: { x: 1 }; y: 2 }>;
 //   ^?
