@@ -1,1 +1,1 @@
-# TypeScript 类型体操训练
+# TypeScript 类型体`操`训练
