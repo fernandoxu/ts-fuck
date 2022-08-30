@@ -46,6 +46,10 @@ type RemoveItem<Arr extends unknown[], Item> = Arr extends [
 type RemoveItemResult = RemoveItem<[1, 2, 3, 4, 5, 3], 3>;
 //   ^?
 
+/**
+ * 类型参数 Length 为数组长度，约束为 number。类型参数 Ele 为元素类型，默认值为 unknown。类型参数 Arr 为构造出的数组，默认值是 []。
+ * 每次判断下 Arr 的长度是否到了 Length，是的话就返回 Arr，否则在 Arr 上加一个元素，然后递归构造。
+ */
 type BuildArray<
   Length extends number,
   Ele = unknown,
