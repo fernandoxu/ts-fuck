@@ -60,7 +60,6 @@ type UnionToIntersection<U> = (
 
 type UnionToIntersectionResult = UnionToIntersection<
   //   ^?
-
   | {
       a: 1;
     }
